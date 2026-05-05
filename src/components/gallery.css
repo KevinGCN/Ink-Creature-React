@@ -1,0 +1,145 @@
+.gallery {
+  padding: 40px;
+  background: #F4F1F7;
+  min-height: 100vh;
+}
+
+.gallery-title {
+  color: #2F2F2F;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 35px;
+}
+
+.gallery-admin-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.gallery-admin-actions button {
+  padding: 9px 18px;
+  background: #5E596B;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.gallery-admin-actions button:hover {
+  background: #4B4453;
+  transform: translateY(-2px);
+}
+
+/* Grid tipo masonry */
+.gallery-grid {
+  column-count: 4;
+  column-gap: 15px;
+}
+
+.gallery-item {
+  position: relative;
+  margin-bottom: 15px;
+  break-inside: avoid;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.gallery-item img {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+.gallery-item:hover {
+  transform: scale(1.03);
+}
+
+.gallery-item:hover img {
+  filter: brightness(0.85);
+}
+
+/* Boton tatuador - aparece al hacer hover */
+.btn-tatuador {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  opacity: 0;
+
+  background: #5E596B;
+  color: white;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+
+  box-shadow: 0 4px 10px rgba(94, 89, 107, 0.25);
+  transition: all 0.3s ease;
+}
+
+.gallery-item:hover .btn-tatuador {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.btn-tatuador:hover {
+  background: #4B4453;
+}
+
+/* Boton eliminar - solo para admin */
+.btn-eliminar {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255, 0, 0, 0.8);
+  border: none;
+  color: white;
+  font-size: 14px;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  opacity: 0;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-item:hover .btn-eliminar {
+  opacity: 1;
+}
+
+/* Visor de imagen ampliada */
+.gallery-viewer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(47, 47, 47, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.gallery-viewer img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) { .gallery-grid { column-count: 3; } }
+@media (max-width: 800px)  { .gallery-grid { column-count: 2; } }
+@media (max-width: 500px)  { .gallery-grid { column-count: 1; } }
