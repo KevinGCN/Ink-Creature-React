@@ -1,15 +1,26 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { home } from "./components/home";
+import { AuthProvider } from "./services/auth";
+import { Navbar } from "./components/Navbar";
+import { Lobby } from "./components/lobby";
+import { Home } from "./components/home";
+import { Profile } from "./components/Profile";
+import { Gallery } from "./components/gallery";
 import './App.css'
 
 function App() {
-
   return (
-    <Router>
-      <Routes>
-        <Route path="/home" element={<home />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Lobby />} />
+          <Route path="/lobby" element={<Lobby />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/gallery" element={<Gallery />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   )
 }
 

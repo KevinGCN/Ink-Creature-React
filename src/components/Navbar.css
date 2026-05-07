@@ -1,0 +1,132 @@
+.userbar {
+  background-color: #E9E3F0;
+  border-radius: 15px 15px 0 15px;
+  position: relative;
+}
+
+.userbar .usuario {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 18px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #E9E3F0;
+  border-radius: 15px 15px 0 15px;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 15px;
+}
+
+.navbar-link {
+  color: #2d2b35;
+  text-decoration: none;
+  font-size: 15px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  transition: background 0.2s;
+  font-weight: 500;
+}
+
+.navbar-link:hover {
+  background-color: #D7D1DB;
+}
+
+.navbar-user-area {
+  position: relative;
+}
+
+.userbar button,
+.navbar-login-btn {
+  background: none;
+  border: none;
+  color: #2d2b35;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  transition: background 0.2s;
+  font-weight: 500;
+}
+
+.userbar button:hover,
+.navbar-login-btn:hover {
+  background-color: #D7D1DB;
+}
+
+.navbar-user-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  background: none;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  color: #2d2b35;
+}
+
+.navbar-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #2563eb;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.menu-ajustes {
+  position: relative; 
+}
+
+.dropdown {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 10px;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  z-index: 999;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.menu-ajustes .dropdown {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.dropdown button {
+  width: 100%;
+  padding: 8px 12px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #2d2b35;
+  font-weight: 500;
+}
+
+.dropdown button:hover {
+  background: #F4F1F7;
+}
