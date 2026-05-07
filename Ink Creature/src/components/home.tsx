@@ -1,7 +1,9 @@
-export const home = () => {
+import { Navbar } from "./navbar"
+
+export const Home = () => {
   return (
     <div>
-      
+      <Navbar/>
     </div>
   )
 }

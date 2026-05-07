@@ -1,4 +1,4 @@
-export const register = () => {
+export const Register = () => {
   return (
     <div>
       

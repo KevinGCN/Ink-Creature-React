@@ -1,4 +1,4 @@
-export const auth = () => {
+export const Auth = () => {
   return (
     <div>
       

@@ -1,7 +1,9 @@
-export const workers = () => {
+import { Navbar } from "./navbar"
+
+export const Workers = () => {
   return (
     <div>
-      
+      <Navbar />
     </div>
   )
 }
