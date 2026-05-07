@@ -1,8 +1,0 @@
-export const Home = () => {
-  return (
-    <div style={{ padding: "20px" }}>
-      <h1>Home</h1>
-      <p>Welcome to Ink Creature</p>
-    </div>
-  )
-}
