@@ -1,4 +1,4 @@
-export const workers = () => {
+export const Workers = () => {
   return (
     <div>
       

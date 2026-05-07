@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../services/auth";
-import { Login } from "./Login";
+import { Login } from "./login";
 import "./Navbar.css";
 
 export const Navbar = () => {
@@ -21,9 +21,11 @@ export const Navbar = () => {
       <nav className="userbar">
         <div className="usuario">
           <div className="navbar-links">
-            <Link to="/lobby" className="navbar-link">Lobby</Link>
+            <Link to="/lobby" className="navbar-link">Home</Link>
             <Link to="/gallery" className="navbar-link">Galería</Link>
-            <Link to="/home" className="navbar-link">Home</Link>
+            <Link to="/workers" className="navbar-link">Tatuadores</Link>
+            <Link to="/info" className="navbar-link">Información</Link>
+            <Link to="/schedule" className="navbar-link">Citas</Link>
           </div>
           <div className="menu-ajustes">
             {!isLoggedIn ? (

@@ -1,4 +1,4 @@
-export const information = () => {
+export const Information = () => {
   return (
     <div>
       

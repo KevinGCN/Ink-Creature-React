@@ -1,4 +1,4 @@
-export const schedules = () => {
+export const Schedules = () => {
   return (
     <div>
       
