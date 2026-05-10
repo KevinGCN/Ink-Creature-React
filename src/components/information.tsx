@@ -1,4 +1,4 @@
-import "./Information.css";
+import "../styles/Information.css";
 
 export const Information = () => {
 

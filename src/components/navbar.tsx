@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../services/auth";
 import { Login } from "./login";
-import "./Navbar.css";
+import "../styles/Navbar.css";
 
 export const Navbar = () => {
   const [mostrarLogin, setMostrarLogin] = useState(false);

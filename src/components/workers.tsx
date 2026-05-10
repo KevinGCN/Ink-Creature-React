@@ -1,4 +1,4 @@
-import "./workers.css";
+import "../styles/workers.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 

@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from 'react'
-import './gallery.css'
+import '../styles/gallery.css'
 
 interface ImagenGaleria {
   id?: number

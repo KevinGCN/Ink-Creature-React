@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../services/auth";
-import "./Login.css";
+import "../styles/Login.css";
 
 interface LoginProps { onClose?: () => void; }
 
