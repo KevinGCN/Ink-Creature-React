@@ -1,9 +1,6 @@
 import { useState } from "react";
-<<<<<<< HEAD
-import { useNavigate, Link } from "react-router-dom";
-=======
 import { useNavigate } from "react-router-dom";
->>>>>>> 3aecdf3541e90f8c89a9f530a5a3d9c0d4faef50
+
 import { useAuth } from "../services/auth";
 
 export const UserNavbar = () => {
