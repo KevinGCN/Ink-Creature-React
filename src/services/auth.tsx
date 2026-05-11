@@ -12,9 +12,9 @@ interface Usuario {
 interface AuthContextType {
   usuario: Usuario | null;
   isLoggedIn: boolean;
-  login: (correo: string, password: string) => Promise<boolean>;
+  login: (correo: string, password: string) => Promise<{success: boolean, message?: string}>;
   loginConGoogle: () => Promise<boolean>;
-  registrar: (nombre: string, correo: string, password: string) => Promise<boolean>;
+  registrar: (nombre: string, correo: string, password: string) => Promise<{success: boolean, message?: string}>;
   logout: () => void;
   enviarRecuperacionContrasena: (correo: string) => Promise<boolean>;
   actualizarUsuario: (u: Usuario) => void;
@@ -41,44 +41,71 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (usuarioGuardado) setUsuario(JSON.parse(usuarioGuardado));
   }, []);
 
-  const actualizarEstadoLocal = (user: Usuario | null) => {
-    if (user) {
-      localStorage.setItem("usuario", JSON.stringify(user));
-      localStorage.setItem("logueado", "true");
-      setUsuario(user);
-      setIsLoggedIn(true);
-    } else {
-      localStorage.removeItem("logueado");
-      localStorage.removeItem("usuario");
-      setUsuario(null);
-      setIsLoggedIn(false);
-    }
-  };
+   const actualizarEstadoLocal = (user: Usuario | null) => {
+     if (user) {
+       localStorage.setItem("usuario", JSON.stringify(user));
+       localStorage.setItem("logueado", "true");
+       setUsuario(user);
+       setIsLoggedIn(true);
+     } else {
+       localStorage.removeItem("logueado");
+       localStorage.removeItem("usuario");
+       setUsuario(null);
+       setIsLoggedIn(false);
+     }
+   };
 
-  const registrar = async (nombre: string, correo: string, password: string): Promise<boolean> => {
-    try {
-      const userData: Usuario = {
-        uid: Date.now().toString(),
-        nombre,
-        email: correo,
-        charge: "Normal"
-      };
-      actualizarEstadoLocal(userData);
-      return true;
-    } catch { return false; }
-  };
+   const obtenerUsuariosRegistrados = (): Usuario[] => {
+     const usuarios = localStorage.getItem("usuarios");
+     return usuarios ? JSON.parse(usuarios) : [];
+   };
 
-  const login = async (correo: string, password: string): Promise<boolean> => {
-    try {
-      const userData: Usuario = {
-        uid: Date.now().toString(),
-        nombre: correo.split("@")[0],
-        email: correo
-      };
-      actualizarEstadoLocal(userData);
-      return true;
-    } catch { return false; }
-  };
+   const guardarUsuariosRegistrados = (usuarios: Usuario[]) => {
+     localStorage.setItem("usuarios", JSON.stringify(usuarios));
+   };
+
+   const registrar = async (nombre: string, correo: string, password: string): Promise<{success: boolean, message?: string}> => {
+     try {
+       const usuarios = obtenerUsuariosRegistrados();
+       const correoNormalizado = correo.toLowerCase().trim();
+
+       const existe = usuarios.some(u => u.email?.toLowerCase() === correoNormalizado);
+       if (existe) {
+         return { success: false, message: "El correo ya está registrado" };
+       }
+
+       const userData: Usuario = {
+         uid: Date.now().toString(),
+         nombre,
+         email: correoNormalizado,
+         charge: "Normal"
+       };
+
+       usuarios.push(userData);
+       guardarUsuariosRegistrados(usuarios);
+       actualizarEstadoLocal(userData);
+       return { success: true };
+     } catch (error) {
+       return { success: false, message: "Error al registrar" };
+     }
+   };
+
+   const login = async (correo: string, password: string): Promise<{success: boolean, message?: string}> => {
+     try {
+       const usuarios = obtenerUsuariosRegistrados();
+       const correoNormalizado = correo.toLowerCase().trim();
+       const usuario = usuarios.find(u => u.email?.toLowerCase() === correoNormalizado);
+
+       if (!usuario) {
+         return { success: false, message: "Usuario no encontrado" };
+       }
+
+       actualizarEstadoLocal(usuario);
+       return { success: true };
+     } catch {
+       return { success: false, message: "Error al iniciar sesión" };
+     }
+   };
 
   const loginConGoogle = async (): Promise<boolean> => {
     try {
