@@ -1,0 +1,288 @@
+/* CONTENEDOR PRINCIPAL */
+.employees-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 40px 20px;
+  background-color: #111111;
+  color: white;
+}
+
+/* ENCABEZADO */
+.encabezado {
+  text-align: center;
+  margin-bottom: 50px;
+}
+.encabezado h1 {
+  font-size: 2.8rem;
+  margin-bottom: 10px;
+}
+.encabezado p {
+  color: #bdbdbd;
+  margin-bottom: 20px;
+}
+
+/* Botón agregar */
+.btn-agregar {
+  padding: 12px 22px;
+  border: none;
+  border-radius: 10px;
+  background-color: #7c3aed;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-agregar:hover {
+  background-color: #6d28d9;
+}
+
+/* CATALOGO */
+.catalogo {
+  width: 100%;
+  max-width: 1300px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+/* TARJETA */
+.tarjeta {
+  background-color: #1b1b1b;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  transition: 0.3s;
+}
+.tarjeta:hover {
+  transform: translateY(-5px);
+}
+
+/* FOTO */
+.tarjeta-foto {
+  position: relative;
+  width: 100%;
+  height: 260px;
+}
+.tarjeta-foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Especialidad */
+.badge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background-color: #7c3aed;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+/* INFORMACION */
+.tarjeta-info {
+  padding: 20px;
+}
+.tarjeta-info h2 {
+  margin-bottom: 10px;
+}
+.cargo {
+  color: #bdbdbd;
+  margin-bottom: 8px;
+}
+.experiencia {
+  margin-bottom: 10px;
+}
+.estrellas {
+  font-size: 1.1rem;
+}
+
+/* FOOTER */
+.tarjeta-footer {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Perfil */
+.btn-perfil {
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #27272a;
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.btn-perfil:hover {
+  background-color: #3f3f46;
+}
+
+/* BOTONES ADMIN */
+.admin-btns {
+  display: flex;
+  gap: 10px;
+}
+
+/* Botones */
+.btn-editar,
+.btn-eliminar {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Editar */
+.btn-editar {
+  background-color: #2563eb;
+}
+.btn-editar:hover {
+  background-color: #1d4ed8;
+}
+
+/* Eliminar */
+.btn-eliminar {
+  background-color: #dc2626;
+}
+.btn-eliminar:hover {
+  background-color: #b91c1c;
+}
+
+/* MODAL OVERLAY */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 90;
+}
+
+/* MODAL */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 420px;
+  max-height: 90vh;
+  background-color: #1b1b1b;
+  border-radius: 18px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* HEADER MODAL */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  border-bottom: 1px solid #2f2f2f;
+  flex-shrink: 0;
+}
+.modal-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* BODY MODAL */
+.modal-body {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+/* Inputs */
+.modal-body input,
+.modal-body textarea,
+.modal-body select {
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 10px;
+  background-color: #2a2a2a;
+  color: white;
+  font-size: 0.95rem;
+}
+
+/* Preview */
+.foto-preview {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+.foto-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Error */
+.error-msg {
+  color: #ef4444;
+  font-size: 0.95rem;
+}
+
+/* FOOTER MODAL */
+.modal-footer {
+  display: flex;
+  gap: 10px;
+  padding: 18px 20px;
+  border-top: 1px solid #2f2f2f;
+  flex-shrink: 0;
+}
+
+/* Botones modal */
+.btn-cancelar,
+.btn-guardar {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Cancelar */
+.btn-cancelar {
+  background-color: #3f3f46;
+}
+.btn-cancelar:hover {
+  background-color: #52525b;
+}
+
+/* Guardar */
+.btn-guardar {
+  background-color: #7c3aed;
+}
+.btn-guardar:hover {
+  background-color: #6d28d9;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .encabezado h1 {
+    font-size: 2rem;
+  }
+  .tarjeta-foto {
+    height: 220px;
+  }
+}

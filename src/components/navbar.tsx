@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../services/auth";
 import { Login } from "./login";
-import "./Navbar.css";
+import "../styles/Navbar.css";
 
 export const Navbar = () => {
   const [mostrarLogin, setMostrarLogin] = useState(false);
@@ -21,7 +21,7 @@ export const Navbar = () => {
       <nav className="userbar">
         <div className="usuario">
           <div className="navbar-links">
-            <Link to="/lobby" className="navbar-link">Lobby</Link>
+            <Link to="/" className="navbar-link">Home</Link>
             <Link to="/gallery" className="navbar-link">Galería</Link>
             <Link to="/home" className="navbar-link">Home</Link>
           </div>
