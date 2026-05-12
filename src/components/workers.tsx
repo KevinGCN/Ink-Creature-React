@@ -1,14 +1,17 @@
 import "../styles/workers.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../services/auth";
 
 export const Workers = () => {
-  // ================= ESTADOS ==================
+  const { usuario, estaLogueado } = useAuth();
   const [mostrarModal, setMostrarModal] = useState(false);
   const [modoEdicion, setModoEdicion] = useState(false);
   const [errorForm, setErrorForm] = useState("");
   const [fotoPreview, setFotoPreview] = useState("");
-  const esAdmin = true;
+
+  // Verificar si es admin o CEO basado en el cargo
+  const esAdmin = estaLogueado() && (usuario?.charge === "Admin" || usuario?.charge === "CEO");
 
   // Formulario
   const [form, setForm] = useState({

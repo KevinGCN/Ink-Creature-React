@@ -17,23 +17,23 @@ export const Login = ({ onClose }: LoginProps) => {
   const irARegistro = () => { setModoRegistro(true); limpiar(); };
   const irALogin = () => { setModoRegistro(false); limpiar(); };
 
-  const iniciarSesion = async () => {
+   const iniciarSesion = async () => {
     setMensajeError("");
     if (!correo || !password) return setMensajeError("Por favor, ingresa tu correo y contraseña");
-    if (!correo.includes("@")) return setMensajeError("Por favor, ingresa un correo electrónico válido");
-    const ok = await login(correo, password);
-    if (ok) { alert("¡Inicio de sesión exitoso!"); onClose?.(); }
-    else setMensajeError("Correo o contraseña incorrectos.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) return setMensajeError("Por favor, ingresa un correo electrónico válido (ej: usuario@dominio.com)");
+    const result = await login(correo, password);
+    if (result.success) { onClose?.(); }
+    else setMensajeError(result.message || "Correo o contraseña incorrectos.");
   };
 
   const registrarse = async () => {
     setMensajeError("");
     if (!nombre || !correo || !password) return setMensajeError("Por favor, completa todos los campos");
-    if (!correo.includes("@")) return setMensajeError("Por favor, ingresa un correo electrónico válido");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) return setMensajeError("Por favor, ingresa un correo electrónico válido (ej: usuario@dominio.com)");
     if (password.length < 8) return setMensajeError("La contraseña debe tener al menos 8 caracteres");
-    const ok = await registrar(nombre, correo, password);
-    if (ok) { alert("¡Registro exitoso!"); onClose?.(); }
-    else setMensajeError("Error al registrar.");
+    const result = await registrar(nombre, correo, password);
+    if (result.success) { onClose?.(); }
+    else setMensajeError(result.message || "Error al registrar.");
   };
 
   const loginGoogle = async () => {
