@@ -93,7 +93,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         nombre,
         email: correoNormalizado,
         charge,
-        password
       };
 
       usuarios.push(userData);
