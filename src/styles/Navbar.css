@@ -177,3 +177,35 @@
     top: 40px;
   }
 }
+
+/* ---------- PANTALLAS PEQUEÑAS ---------- */
+@media (max-width: 400px) {
+
+  .navbar {
+    padding: 8px;
+  }
+
+  .navbar-links {
+    gap: 6px;
+  }
+
+  .navbar-link {
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+
+  .navbar-user-btn {
+    gap: 4px;
+    font-size: 12px;
+  }
+
+  .navbar-avatar {
+    width: 26px;
+    height: 26px;
+    font-size: 11px;
+  }
+
+  .dropdown button {
+    font-size: 12px;
+  }
+}
