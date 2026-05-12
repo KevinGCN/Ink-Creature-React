@@ -1,16 +1,16 @@
 import "../styles/schedules.css";
 import { useEffect, useState } from "react";
 import { tatuadores } from "../services/data";
+import { useAuth } from "../services/auth";
 
 export const Schedules = () => {
 
+  const { usuario } = useAuth();
   /* ======FECHA ACTUAL======= */
-
   // Guarda la fecha actual del computador del usuario
   const fecha = new Date();
 
   /* ======ESTADOS======= */
-
   // Guarda el número del mes actual
   // Marzo = 2
   const [mesActual, setMesActual] = useState(
@@ -42,7 +42,13 @@ export const Schedules = () => {
   // Guarda todas las citas creadas
   // Cada cita contiene:
   // fecha, hora y tatuador
-  const [citas, setCitas] = useState<any[]>([]);
+  const [citas, setCitas] = useState<any[]>(() => {
+    const citasGuardadas =
+      localStorage.getItem("citas");
+    return citasGuardadas
+      ? JSON.parse(citasGuardadas)
+      : [];
+  });
 
   // Indica si se está editando una cita
   // false = creando nueva cita
@@ -108,6 +114,13 @@ export const Schedules = () => {
     generarCalendario();
   }, [mesActual, anioActual]);
 
+  useEffect(() => {
+    localStorage.setItem(
+      "citas",
+      JSON.stringify(citas)
+    );
+  }, [citas]);
+
   /* ============VALIDAR FECHA PASADA============= */
 
   // Verifica si una fecha ya pasó
@@ -165,6 +178,8 @@ export const Schedules = () => {
 
     // Crea el objeto de la nueva cita
     const nuevaCita = {
+
+      usuario: usuario?.nombre || "Invitado",
 
       // Construye la fecha completa
       fecha:
@@ -361,16 +376,23 @@ export const Schedules = () => {
       {/* ===========CITAS======== */}
       <div>
         {/* Recorre todas las citas */}
-        {citas.map((cita, index) => (
-          <p key={index}>
-            {/* Información de cada cita */}
-            {cita.fecha}
-            {" - "}
-            {cita.hora}
-            {" - "}
-            {cita.tatuador}
-          </p>
-        ))}
+        {
+          citas
+            .filter(
+              (cita) =>
+                cita.usuario === usuario?.nombre
+            )
+            .map((cita, index) => (
+              <p key={index}>
+                {/* Información de cada cita */}
+                {cita.fecha}
+                {" - "}
+                {cita.hora}
+                {" - "}
+                {cita.tatuador}
+              </p>
+            ))
+        }
       </div>
     </div>
   );
