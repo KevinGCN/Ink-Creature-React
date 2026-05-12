@@ -19,12 +19,15 @@ export const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    cargarCitas();
+    if (usuario) {
+      cargarCitas();
+    }
     cargarFoto();
-  }, []);
+  }, [usuario]);
 
   const cargarCitas = () => {
-    const citasGuardadas = localStorage.getItem("citas");
+    if (!usuario?.nombre) return;
+    const citasGuardadas = localStorage.getItem(`citas_${usuario.nombre}`);
     setCitas(citasGuardadas ? JSON.parse(citasGuardadas) : []);
   };
 
@@ -33,9 +36,14 @@ export const Profile = () => {
   };
 
   const eliminar = (id: number) => {
-    const nuevasCitas = citas.filter(c => c.id !== id);
+    const nuevasCitas = citas.filter((c) => c.id !== id);
     setCitas(nuevasCitas);
-    localStorage.setItem("citas", JSON.stringify(nuevasCitas));
+    if (usuario?.nombre) {
+      localStorage.setItem(
+        `citas_${usuario.uid}`,
+        JSON.stringify(nuevasCitas)
+      );
+    }
   };
 
   const cambiarFoto = (e: React.ChangeEvent<HTMLInputElement>) => {

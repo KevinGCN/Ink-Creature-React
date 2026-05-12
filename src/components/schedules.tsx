@@ -46,7 +46,7 @@ export const Schedules = () => {
   // Indica si se está editando una cita
   // false = creando nueva cita
   // true = editando una existente
-  const [modoEdicion] = useState(false);
+  const [modoEdicion, setModoEdicion] = useState(false);
 
   /* =======DATOS======= */
 
@@ -137,6 +137,7 @@ export const Schedules = () => {
 
   useEffect(() => {
     if (citaEditar) {
+      setModoEdicion(true),
       setFechaSeleccionada(
         Number(citaEditar.fecha.split("/")[0].trim())
       );
@@ -147,7 +148,6 @@ export const Schedules = () => {
         citaEditar.tatuador
       );
     }
-
   }, [citaEditar]);
 
   /* ============VALIDAR FECHA PASADA============= */

@@ -5,6 +5,7 @@ import { useAuth } from "../services/auth";
 export const UserNavbar = () => {
   const [mostrarLogin, setMostrarLogin] = useState(false);
   const [mostrarAjustes, setMostrarAjustes] = useState(false);
+
   const { usuario, isLoggedIn, logout: authLogout } = useAuth();
   const navigate = useNavigate();
 
@@ -33,99 +34,121 @@ export const UserNavbar = () => {
 
   return (
     <>
-      <div style={{
-        position: "fixed",
-        top: "10px",
-        right: "20px",
-        zIndex: 1000
-      }}>
+      <div
+        className="
+          fixed top-2 right-2
+          sm:top-10px sm:right-20px
+          z-1000
+        "
+      >
         {!isLoggedIn ? (
           <button
             onClick={abrirLogin}
-            style={{
-              padding: "8px 16px",
-              backgroundColor: "#aa3bff",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer"
-            }}
+            className="
+              px-3 py-2
+              sm:px-4
+              bg-[#aa3bff]
+              text-white
+              border-none
+              rounded-md
+              cursor-pointer
+              text-sm
+              transition
+              hover:bg-[#922de0]
+            "
           >
             Sesión
           </button>
         ) : (
-          <div style={{ position: "relative" }}>
+          <div className="relative">
             <button
               onClick={toggleAjustes}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                padding: "5px 10px",
-                backgroundColor: "#f4f3ec",
-                border: "1px solid #ddd",
-                borderRadius: "20px",
-                cursor: "pointer"
-              }}
+              className="
+                flex items-center gap-2
+                px-2 py-1
+                sm:px-10px
+                bg-[#f4f3ec]
+                border border-[#ddd]
+                rounded-[20px]
+                cursor-pointer
+                max-w-180px
+                overflow-hidden
+              "
             >
-              <div style={{
-                width: "32px",
-                height: "32px",
-                borderRadius: "50%",
-                backgroundColor: "#aa3bff",
-                color: "white",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontWeight: "bold"
-              }}>
-                {(usuario?.nombre || usuario?.email || "U").charAt(0).toUpperCase()}
+              <div
+                className="
+                  w-8 h-8
+                  min-w-8
+                  rounded-full
+                  bg-[#aa3bff]
+                  text-white
+                  flex items-center justify-center
+                  font-bold
+                "
+              >
+                {(usuario?.nombre || usuario?.email || "U")
+                  .charAt(0)
+                  .toUpperCase()}
               </div>
-              <span>{usuario?.nombre || usuario?.email?.split("@")[0] || "Usuario"}</span>
+
+              <span
+                className="
+                  text-sm
+                  truncate
+                  max-w-90px
+                  sm:max-w-140px
+                "
+              >
+                {usuario?.nombre ||
+                  usuario?.email?.split("@")[0] ||
+                  "Usuario"}
+              </span>
             </button>
 
             {mostrarAjustes && (
-              <div style={{
-                position: "absolute",
-                top: "45px",
-                right: "0",
-                backgroundColor: "white",
-                border: "1px solid #ddd",
-                borderRadius: "8px",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-                minWidth: "150px",
-                padding: "8px"
-              }}>
+              <div
+                className="
+                  absolute top-45px right-0
+                  bg-white
+                  border border-[#ddd]
+                  rounded-lg
+                  shadow-[0_4px_12px_rgba(0,0,0,0.15)]
+                  min-w-150px
+                  p-2
+                  z-1100
+                "
+              >
                 <button
                   onClick={irPerfil}
-                  style={{
-                    width: "100%",
-                    padding: "8px 12px",
-                    textAlign: "left",
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    borderRadius: "4px"
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#f4f3ec"}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}
+                  className="
+                    w-full
+                    px-3 py-2
+                    text-left
+                    bg-transparent
+                    border-none
+                    cursor-pointer
+                    rounded
+                    text-sm
+                    hover:bg-[#f4f3ec]
+                  "
                 >
                   Perfil
                 </button>
+
                 <button
                   onClick={logout}
-                  style={{
-                    width: "100%",
-                    padding: "8px 12px",
-                    textAlign: "left",
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    borderRadius: "4px",
-                    color: "#ff4444"
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#f4f3ec"}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}
+                  className="
+                    w-full
+                    px-3 py-2
+                    text-left
+                    bg-transparent
+                    border-none
+                    cursor-pointer
+                    rounded
+                    text-sm
+                    text-[#ff4444]
+                    hover:bg-[#f4f3ec]
+                  "
                 >
                   Cerrar sesión
                 </button>
@@ -136,37 +159,45 @@ export const UserNavbar = () => {
       </div>
 
       {mostrarLogin && (
-        <div style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: "rgba(0,0,0,0.5)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          zIndex: 2000
-        }}>
-          <div style={{
-            backgroundColor: "white",
-            padding: "20px",
-            borderRadius: "8px",
-            maxWidth: "400px",
-            width: "90%"
-          }}>
-            <h3 style={{ marginTop: 0 }}>Iniciar sesión</h3>
-            <p>Modal de login pendiente de implementar</p>
+        <div
+          className="
+            fixed inset-0
+            bg-[rgba(0,0,0,0.5)]
+            flex items-center justify-center
+            z-2000
+            p-4
+          "
+        >
+          <div
+            className="
+              bg-white
+              p-5
+              rounded-lg
+              w-[90%]
+              max-w-400px
+            "
+          >
+            <h3 className="mt-0 text-lg font-semibold">
+              Iniciar sesión
+            </h3>
+
+            <p className="text-sm text-gray-600">
+              Modal de login pendiente de implementar
+            </p>
+
             <button
               onClick={cerrarLogin}
-              style={{
-                padding: "8px 16px",
-                backgroundColor: "#aa3bff",
-                color: "white",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer"
-              }}
+              className="
+                mt-4
+                px-4 py-2
+                bg-[#aa3bff]
+                text-white
+                border-none
+                rounded-md
+                cursor-pointer
+                hover:bg-[#922de0]
+                transition
+              "
             >
               Cerrar
             </button>
