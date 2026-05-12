@@ -5,6 +5,7 @@ interface Usuario {
   uid?: string;
   nombre?: string;
   email?: string;
+  password?: string;
   photoURL?: string;
   charge?: string;
 }
@@ -63,7 +64,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("usuarios", JSON.stringify(usuarios));
   };
 
-  const registrar = async (nombre: string, correo: string): Promise<{ success: boolean, message?: string }> => {
+  const registrar = async (nombre: string, correo: string, password: string): Promise<{ success: boolean, message?: string }> => {
     try {
       const usuarios = obtenerUsuariosRegistrados();
       const correoNormalizado = correo.toLowerCase().trim();
@@ -91,6 +92,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         uid: Date.now().toString(),
         nombre,
         email: correoNormalizado,
+        password,
         charge
       };
 
@@ -110,7 +112,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       /*const passwordLength = password.length;*/
       const usuarios = obtenerUsuariosRegistrados();
       const correoNormalizado = correo.toLowerCase().trim();
-      const usuario = usuarios.find(u => u.email?.toLowerCase() === correoNormalizado);
+      const usuario = usuarios.find(u => u.email?.toLowerCase() === correoNormalizado && u.password === password);  
 
       if (!usuario) {
         return { success: false, message: "Usuario no encontrado" };
