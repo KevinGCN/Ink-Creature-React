@@ -143,7 +143,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } catch {
       return { success: false, message: "Error al iniciar sesión" };
     }
-  };
+  }
 
   const loginConGoogle = async (): Promise<boolean> => {
     try {
