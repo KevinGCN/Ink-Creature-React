@@ -106,7 +106,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (correo: string, password: string): Promise<{ success: boolean, message?: string }> => {
     try {
       // Read password to avoid unused variable warning
-      const passwordLength = password.length;
+    const passwordLength = password.length;  
       const usuarios = obtenerUsuariosRegistrados();
       const correoNormalizado = correo.toLowerCase().trim();
       const usuario = usuarios.find(u => u.email?.toLowerCase() === correoNormalizado);
