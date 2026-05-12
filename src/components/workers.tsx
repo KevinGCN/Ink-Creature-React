@@ -2,6 +2,7 @@ import "../styles/workers.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../services/auth";
+import { tatuadores } from "../services/data";
 
 export const Workers = () => {
   const { usuario, estaLogueado } = useAuth();
@@ -25,68 +26,8 @@ export const Workers = () => {
   });
 
   // Lista de tatuadores
-  const [tatuadores, setTatuadores] = useState([
-    {
-      id: 1,
-      nombre: 'Emilia Soplano',
-      cargo: 'Tatuador',
-      especialidad: 'Estilo Anime',
-      experiencia: 5,
-      descripcion: 'Tatuadora especializada en anime y Dragon Ball: líneas que parecen Kamehamehas y color digno de una esfera del dragón.',
-      foto: 'image/Emilia Soplano.jpg',
-      estrellas: 5
-    },
-    {
-      id: 2,
-      nombre: 'Gabe Fernandez',
-      cargo: 'Tatuador',
-      especialidad: 'Realismo y Fantasía Oscura',
-      experiencia: 4,
-      descripcion: 'Tatuador especializado en estilo Souls: cinismo, armaduras rotas y fuegos fatuos con la misma elegancia oscura de morir una y otra vez.',
-      foto: 'image/Gabe Fernandez.jpg',
-      estrellas: 5
-    },
-    {
-      id: 3,
-      nombre: 'Juan David Vernadez',
-      cargo: 'Tatuador',
-      especialidad: 'Arte Fantástico y de videojuegos',
-      experiencia: 4,
-      descripcion: 'Soy bueno dandole caracteristicas unicas a los personajes.',
-      foto: 'image/Juan David Vernadez.webp',
-      estrellas: 4
-    },
-    {
-      id: 4,
-      nombre: 'Valentina Ríos',
-      cargo: 'Tatuadora',
-      especialidad: 'Minimalismo',
-      experiencia: 3,
-      descripcion: 'Tatuadora de mundos fantasticos: personajes memorables, magia arcana y KasuGOD > Basuro.',
-      foto: 'image/Valentina Ríos.jpg',
-      estrellas: 5
-    },
-    {
-      id: 5,
-      nombre: 'Sebastián Morales',
-      cargo: 'Tatuador',
-      especialidad: 'Chivi',
-      experiencia: 6,
-      descripcion: 'Soy experto en hacer arte lindo y adorable.',
-      foto: 'image/Sebastián Morales.jpg',
-      estrellas: 4
-    },
-    {
-      id: 6,
-      nombre: 'Leonardo Taza',
-      cargo: 'Tatuador',
-      especialidad: 'Warhammer 40k',
-      experiencia: 3,
-      descripcion: 'Quieres el tatuaje de una monja de batalla con lanzallamas? Pues si la respuesta es si, yo soy tu hombre.',
-      foto: 'image/Leonardo Taza.png',
-      estrellas: 5
-    }
-  ]);
+  const [listaTatuadores, setListaTatuadores] =
+  useState(tatuadores);
 
   // ============ FUNCIONES ================
   // Genera estrellas
@@ -123,10 +64,10 @@ export const Workers = () => {
 
   // Eliminar tatuador
   const eliminar = (id: number) => {
-    const nuevaLista = tatuadores.filter(
+    const nuevaLista = listaTatuadores.filter(
       (t) => t.id !== id
     );
-    setTatuadores(nuevaLista);
+    setListaTatuadores(nuevaLista);
   };
 
   // Cargar imagen
@@ -160,8 +101,8 @@ export const Workers = () => {
         id: Date.now(),
         ...form
       };
-      setTatuadores([
-        ...tatuadores,
+      setListaTatuadores([
+        ...listaTatuadores,
         nuevoTatuador
       ]);
     }
@@ -191,7 +132,7 @@ export const Workers = () => {
 
         {/* Catalogo */}
         <div className="catalogo">
-          {tatuadores.map((t) => (
+          {listaTatuadores.map((t) => (
             <div
               className="tarjeta"
               key={t.id}
@@ -223,10 +164,10 @@ export const Workers = () => {
               {/* Footer */}
               <div className="tarjeta-footer">
                 <Link
-                  to={`/employeeCV/${t.id}`}
+                  to={`/Schedules`}
                   className="btn-perfil"
                 >
-                  Ver perfil
+                  Agendar Cita
                 </Link>
                 {esAdmin && (
                   <div className="admin-btns">

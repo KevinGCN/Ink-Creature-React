@@ -25,7 +25,7 @@ export const Navbar = () => {
             <Link to="/gallery" className="navbar-link">Galería</Link>
             <Link to="/workers" className="navbar-link">Tatuadores</Link>
             <Link to="/info" className="navbar-link">Información</Link>
-            <Link to="/schedule" className="navbar-link">Citas</Link>
+            <Link to="/schedules" className="navbar-link">Citas</Link>
           </div>
           <div className="menu-ajustes">
             {!isLoggedIn ? (

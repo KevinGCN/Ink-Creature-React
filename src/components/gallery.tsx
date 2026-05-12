@@ -22,7 +22,7 @@ function cargarImagenes(): ImagenGaleria[] {
   const raw = localStorage.getItem('galeria')
   const guardadas: ImagenGaleria[] = raw ? JSON.parse(raw) : []
   const unicas = guardadas.filter(
-    (img) => !IMAGENES_BASE.some((base) => base.src === img.src)
+    (img) => !IMAGENES_BASE.some((base) => base.src === img.src) 
   )
   return [...IMAGENES_BASE, ...unicas]
 }

@@ -25,7 +25,7 @@ export const Login = ({ onClose }: LoginProps) => {
     if (result.success) { onClose?.(); }
     else setMensajeError(result.message || "Correo o contraseña incorrectos.");
   };
-
+  
   const registrarse = async () => {
     setMensajeError("");
     if (!nombre || !correo || !password) return setMensajeError("Por favor, completa todos los campos");
