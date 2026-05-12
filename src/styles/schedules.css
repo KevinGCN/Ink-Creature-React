@@ -1,231 +1,556 @@
+/* =============================================
+   KANBAN BOARD — INK CREATURE SCHEDULES
+   ============================================= */
+
 /* CONTENEDOR PRINCIPAL */
-.container {
+.kanban-container {
   width: 100%;
   min-height: 100vh;
-  padding: 40px 20px;
+  padding: 30px 24px;
   background-color: #111111;
-  color: white;
+  color: #ffffff;
+  box-sizing: border-box;
 }
 
-/* TITULO */
-.container h1 {
+/* HEADER */
+.kanban-header {
   text-align: center;
-  font-size: 2.5rem;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
-/* CONTENIDO GENERAL */
-.content {
-  width: 100%;
-  max-width: 1300px;
-  margin: auto;
-  display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr;
-  gap: 25px;
-  align-items: start;
+.kanban-header h1 {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #7c3aed, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* TARJETAS */
-.calendar,
-.hours,
-.artists {
+.kanban-subtitle {
+  color: #9ca3af;
+  font-size: 0.95rem;
+}
+
+/* ====== NUEVA CITA BAR ====== */
+.new-cita-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto 20px;
+  padding: 0 4px;
+}
+
+.btn-nueva-cita {
+  padding: 12px 24px;
+  background-color: #7c3aed;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-nueva-cita:hover {
+  background-color: #6d28d9;
+}
+
+.user-greeting {
+  color: #a78bfa;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* ====== FORM SECTION ====== */
+.form-section {
+  max-width: 900px;
+  margin: 0 auto 30px;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-card {
   background-color: #1b1b1b;
   border-radius: 18px;
-  padding: 20px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  padding: 28px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  border: 1px solid #2a2a2a;
 }
 
-/* HEADER CALENDARIO */
-.calendar-header {
-  display: flex;
-  gap: 10px;
+.form-card h2 {
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  color: #c4b5fd;
+}
+
+/* Mini Calendar */
+.mini-calendar {
+  background-color: #222222;
+  border-radius: 12px;
+  padding: 18px;
   margin-bottom: 20px;
 }
 
-/* SELECTORES */
+.calendar-header {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
 .calendar-header select {
   flex: 1;
   padding: 10px;
-  border: none;
-  border-radius: 10px;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
   background-color: #2a2a2a;
   color: white;
   cursor: pointer;
+  font-size: 0.95rem;
 }
 
-/* DIAS */
+.calendar-header select:focus {
+  outline: none;
+  border-color: #7c3aed;
+}
+
 .days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   text-align: center;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   font-weight: bold;
   color: #bdbdbd;
+  font-size: 0.85rem;
 }
 
-/* FECHAS */
 .dates {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
+  gap: 6px;
 }
 
-/* DIA */
 .dates span {
-  height: 45px;
+  height: 38px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #2a2a2a;
-  border-radius: 10px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background-color 0.2s;
+  font-size: 0.9rem;
 }
 
-/* Hover */
 .dates span:hover {
-  background-color: #3f3f46;
+  background-color: #374151;
 }
 
-/* Fecha seleccionada */
 .dates .active {
   background-color: #7c3aed;
+  color: white;
+  font-weight: bold;
 }
 
-/* Fecha bloqueada */
 .dates .disabled {
-  opacity: 0.4;
+  opacity: 0.35;
   cursor: not-allowed;
 }
 
-/* HORARIOS */
-.hours {
+/* Hours Picker */
+.section-label {
+  display: block;
+  font-size: 0.9rem;
+  color: #9ca3af;
+  margin-bottom: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.hours-picker {
+  margin-bottom: 20px;
+}
+
+.hours-grid {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-/* BOTONES HORA */
-.hours button {
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  background-color: #2a2a2a;
-  color: white;
+.hour-btn {
+  padding: 10px 16px;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  background-color: #222222;
+  color: #d1d5db;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.2s;
+  font-size: 0.9rem;
 }
 
-/* Hover hora */
-.hours button:hover {
-  background-color: #3f3f46;
+.hour-btn:hover {
+  background-color: #2f3542;
+  border-color: #4b5563;
 }
 
-/* Hora seleccionada */
-.hours .selected {
+.hour-btn.selected {
   background-color: #7c3aed;
+  border-color: #7c3aed;
+  color: white;
+  font-weight: 600;
 }
 
-/* TATUADORES */
-.artists {
+/* Artists Picker */
+.artists-picker {
+  margin-bottom: 24px;
+}
+
+.artists-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.artist-card {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
-
-/* TARJETA TATUADOR */
-.artist {
-  padding: 14px;
+  align-items: center;
+  padding: 14px 18px;
   border-radius: 12px;
-  background-color: #2a2a2a;
+  background-color: #222222;
+  border: 2px solid transparent;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.25s;
+  min-width: 120px;
   text-align: center;
 }
 
-/* Hover tatuador */
-.artist:hover {
-  background-color: #3f3f46;
+.artist-card:hover {
+  background-color: #2a2a2a;
+  border-color: #3b3b3b;
 }
 
-/* Tatuador seleccionado */
-.artist.selected {
-  background-color: #7c3aed;
+.artist-card.selected {
+  background-color: rgba(124, 58, 237, 0.15);
+  border-color: #7c3aed;
 }
 
-/* BOTONES */
-.actions {
-  width: 100%;
-  max-width: 500px;
-  margin: 40px auto 20px;
+.artist-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed, #c084fc);
   display: flex;
-  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: white;
+  margin-bottom: 8px;
 }
 
-/* BOTONES GENERALES */
-.cancelar,
-.reserve {
+.artist-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #e5e7eb;
+  margin-bottom: 2px;
+}
+
+.artist-specialty {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.btn-cancelar,
+.btn-reservar {
   flex: 1;
   padding: 14px;
   border: none;
   border-radius: 12px;
-  color: white;
-  cursor: pointer;
-  transition: 0.3s;
   font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
-/* CANCELAR */
-.cancelar {
+.btn-cancelar {
+  background-color: #27272a;
+  color: #9ca3af;
+}
+
+.btn-cancelar:hover {
   background-color: #3f3f46;
+  color: white;
 }
 
-.cancelar:hover {
-  background-color: #52525b;
+.btn-reservar {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  color: white;
 }
 
-/* RESERVAR */
-.reserve {
-  background-color: #7c3aed;
+.btn-reservar:hover {
+  background: linear-gradient(135deg, #6d28d9, #5b21b6);
+  transform: translateY(-1px);
 }
 
-.reserve:hover {
-  background-color: #6d28d9;
+/* ====== KANBAN BOARD ====== */
+.kanban-board {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 4px;
 }
 
-/* LINEA */
-hr {
-  border: none;
-  border-top: 1px solid #2f2f2f;
-  margin: 30px 0;
-}
-
-/* LISTA DE CITAS */
-.container p {
-  max-width: 700px;
-  margin: 12px auto;
-  padding: 14px;
+/* Column */
+.kanban-column {
   background-color: #1b1b1b;
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  border: 2px solid transparent;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.kanban-column.drag-over {
+  border-color: #7c3aed;
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+  background-color: rgba(124, 58, 237, 0.05);
+}
+
+/* Column Header */
+.column-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px 12px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.column-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed, #c084fc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+.column-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.column-info h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+.column-count {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+/* Column Cards Container */
+.column-cards {
+  padding: 14px 14px 18px;
+  flex: 1;
+  min-height: 100px;
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 10px;
+  color: #4b5563;
+}
+
+.empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  opacity: 0.5;
+}
+
+.empty-state p {
+  font-size: 0.9rem;
+}
+
+/* ====== CITA CARD ====== */
+.cita-card {
+  background-color: #222222;
+  border: 1px solid #2f2f2f;
   border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
+  cursor: grab;
+  transition: all 0.25s;
+  position: relative;
 }
 
-/* RESPONSIVE */
-@media (max-width: 1000px) {
+.cita-card:hover {
+  border-color: #3b3b3b;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
 
-  .content {
+.cita-card:active {
+  cursor: grabbing;
+  transform: scale(0.98);
+}
+
+.cita-card.dragging {
+  opacity: 0.4;
+  transform: rotate(2deg) scale(0.95);
+}
+
+/* Card Header */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.card-usuario {
+  font-size: 0.85rem;
+  color: #a78bfa;
+  font-weight: 600;
+}
+
+.card-delete {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 6px;
+  background-color: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.card-delete:hover {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+/* Card Body */
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.card-detail {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.detail-icon {
+  font-size: 0.9rem;
+}
+
+/* ====== FOOTER ====== */
+.kanban-footer {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 1100px) {
+  .kanban-board {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .kanban-container {
+    padding: 20px 12px;
+  }
+
+  .kanban-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .kanban-board {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 
-}
-
-@media (max-width: 600px) {
-
-  .container h1 {
-    font-size: 2rem;
+  .form-card {
+    padding: 20px;
   }
 
-  .actions {
+  .form-actions {
     flex-direction: column;
   }
 
+  .artists-grid {
+    justify-content: center;
+  }
+
+  .new-cita-bar {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .kanban-header h1 {
+    font-size: 1.3rem;
+  }
+
+  .hours-grid {
+    justify-content: center;
+  }
+
+  .artist-card {
+    min-width: 100px;
+    padding: 10px 14px;
+  }
 }
