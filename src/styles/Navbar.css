@@ -130,3 +130,59 @@
 .dropdown button:hover {
   background: #F4F1F7;
 }
+
+/*======RESPONSIVE=========*/
+@media (max-width: 600px) {
+
+  .navbar {
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .navbar-links {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .navbar-link {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .navbar-user-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .navbar-login-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .userbar .usuario {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .navbar-avatar {
+    width: 38px;
+    height: 38px;
+    font-size: 14px;
+  }
+
+  .dropdown {
+    width: 100%;
+    min-width: unset;
+    right: 0;
+    left: 0;
+    top: 50px;
+  }
+
+  .dropdown button {
+    text-align: center;
+  }
+}
