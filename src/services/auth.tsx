@@ -16,7 +16,6 @@ interface AuthContextType {
   loginConGoogle: () => Promise<boolean>;
   registrar: (nombre: string, correo: string, password: string) => Promise<{ success: boolean, message?: string }>;
   logout: () => void;
-  enviarRecuperacionContrasena: (correo: string) => Promise<boolean>;
   actualizarUsuario: (u: Usuario) => void;
   obtenerUsuario: () => Usuario | null;
   estaLogueado: () => boolean;
@@ -132,6 +131,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (isNaN(passwordNum) || passwordNum < 1 || passwordNum > 8) {
           return { success: false, message: "Contraseña de administrador inválida" };
         }
+      } else {
+        // Para usuarios normales, requerir contraseña no vacía
+        if (password.length === 0) {
+          return { success: false, message: "Contraseña requerida" };
+        }
       }
 
       actualizarEstadoLocal(usuario);
@@ -155,23 +159,30 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => actualizarEstadoLocal(null);
 
-  const enviarRecuperacionContrasena = async (correo: string) => {
-    // Read correo to avoid unused variable warning
-    const correoLength = correo.length;
-    return true;
+  const actualizarUsuario = (u: Usuario) => { 
+    localStorage.setItem("usuario", JSON.stringify(u)); 
+    setUsuario(u); 
   };
-  const actualizarUsuario = (u: Usuario) => { localStorage.setItem("usuario", JSON.stringify(u)); setUsuario(u); };
+  
   const obtenerUsuario = () => {
-    const user =
-      localStorage.getItem("usuario");
-    return user
-      ? JSON.parse(user)
-      : null;
+    const user = localStorage.getItem("usuario");
+    return user ? JSON.parse(user) : null;
   };
+  
   const estaLogueado = () => localStorage.getItem("logueado") === "true";
 
   return (
-    <AuthContext.Provider value={{ usuario, isLoggedIn, login, loginConGoogle, registrar, logout, enviarRecuperacionContrasena, actualizarUsuario, obtenerUsuario, estaLogueado }}>
+    <AuthContext.Provider value={{ 
+      usuario, 
+      isLoggedIn, 
+      login, 
+      loginConGoogle, 
+      registrar, 
+      logout, 
+      actualizarUsuario, 
+      obtenerUsuario, 
+      estaLogueado 
+    }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,0 +1,337 @@
+/* =====================
+   LOBBY PAGE
+   ===================== */
+.lobby-page {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #111111;
+  color: white;
+  padding-bottom: 60px;
+}
+
+/* =====================
+   HERO
+   ===================== */
+.lobby-hero {
+  text-align: center;
+  padding: 80px 20px 60px;
+  background: linear-gradient(180deg, #1a0a2e 0%, #111111 100%);
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.lobby-titulo {
+  font-size: 3.5rem;
+  margin: 0 0 16px;
+  color: white;
+  letter-spacing: -1px;
+}
+
+.lobby-subtitulo {
+  font-size: 1.1rem;
+  color: #a1a1aa;
+  margin: 0;
+}
+
+/* =====================
+   SECCIÓN RESEÑAS
+   ===================== */
+.lobby-resenas-section {
+  max-width: 800px;
+  margin: 50px auto 0;
+  padding: 0 20px;
+}
+
+.lobby-resenas-titulo {
+  font-size: 1.8rem;
+  color: white;
+  margin: 0 0 30px;
+  text-align: center;
+}
+
+/* =====================
+   AVISO LOGIN
+   ===================== */
+.lobby-aviso-login {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #1b1b1b;
+  border: 1px solid #2f2f2f;
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 32px;
+  color: #a1a1aa;
+  font-size: 0.95rem;
+}
+
+.lobby-aviso-login span {
+  font-size: 1.4rem;
+}
+
+/* =====================
+   FORMULARIO
+   ===================== */
+.lobby-form {
+  background-color: #1b1b1b;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 36px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+.lobby-form-saludo {
+  color: #a1a1aa;
+  font-size: 0.9rem;
+  margin: 0 0 14px;
+  text-align: left;
+}
+
+.lobby-form-saludo strong {
+  color: #c084fc;
+}
+
+.lobby-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  background-color: #2a2a2a;
+  border: 1px solid #3f3f46;
+  border-radius: 10px;
+  color: white;
+  font-size: 0.95rem;
+  resize: vertical;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.lobby-textarea:focus {
+  outline: none;
+  border-color: #7c3aed;
+}
+
+.lobby-form-fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.lobby-btn-publicar {
+  padding: 10px 22px;
+  background-color: #7c3aed;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.lobby-btn-publicar:hover {
+  background-color: #6d28d9;
+  transform: translateY(-2px);
+}
+
+.lobby-error {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin: 10px 0 0;
+  text-align: left;
+}
+
+/* =====================
+   ESTRELLAS
+   ===================== */
+.lobby-estrellas {
+  display: flex;
+  gap: 4px;
+}
+
+.lobby-estrella {
+  font-size: 1.4rem;
+  color: #3f3f46;
+  transition: color 0.15s, transform 0.15s;
+  line-height: 1;
+}
+
+.lobby-estrella.activa {
+  color: #f59e0b;
+}
+
+.lobby-estrella.interactiva {
+  cursor: pointer;
+}
+
+.lobby-estrella.interactiva:hover {
+  transform: scale(1.2);
+  color: #fbbf24;
+}
+
+/* =====================
+   LISTA DE RESEÑAS
+   ===================== */
+.lobby-resenas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.lobby-sin-resenas {
+  text-align: center;
+  color: #52525b;
+  font-size: 0.95rem;
+  padding: 40px 0;
+}
+
+/* =====================
+   TARJETA RESEÑA
+   ===================== */
+.lobby-resena-card {
+  background-color: #1b1b1b;
+  border-radius: 16px;
+  padding: 20px 22px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
+}
+
+.lobby-resena-card:hover {
+  transform: translateY(-3px);
+}
+
+.lobby-resena-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.lobby-resena-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #7c3aed;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.lobby-resena-meta {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  text-align: left;
+}
+
+.lobby-resena-autor {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: white;
+}
+
+.lobby-resena-fecha {
+  font-size: 0.78rem;
+  color: #71717a;
+  margin-top: 2px;
+}
+
+.lobby-resena-texto {
+  color: #d4d4d8;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  text-align: left;
+  margin: 10px 0 0;
+}
+
+/* =====================
+   BOTONES ACCIÓN
+   ===================== */
+.lobby-resena-acciones {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.lobby-btn-editar,
+.lobby-btn-eliminar {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s, transform 0.2s;
+  line-height: 1;
+}
+
+.lobby-btn-editar:hover {
+  background-color: #2563eb22;
+  transform: scale(1.15);
+}
+
+.lobby-btn-eliminar:hover {
+  background-color: #dc262622;
+  transform: scale(1.15);
+}
+
+/* =====================
+   MODO EDICIÓN
+   ===================== */
+.lobby-edicion {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lobby-edicion-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.lobby-btn-guardar,
+.lobby-btn-cancelar {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.lobby-btn-guardar {
+  background-color: #7c3aed;
+}
+
+.lobby-btn-guardar:hover {
+  background-color: #6d28d9;
+}
+
+.lobby-btn-cancelar {
+  background-color: #3f3f46;
+}
+
+.lobby-btn-cancelar:hover {
+  background-color: #52525b;
+}
+
+/* =====================
+   RESPONSIVE
+   ===================== */
+@media (max-width: 600px) {
+  .lobby-titulo {
+    font-size: 2.2rem;
+  }
+  .lobby-form-fila {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .lobby-btn-publicar {
+    width: 100%;
+  }
+}

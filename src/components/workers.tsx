@@ -27,7 +27,7 @@ export const Workers = () => {
 
   // Lista de tatuadores
   const [listaTatuadores, setListaTatuadores] =
-  useState(tatuadores);
+    useState(tatuadores);
 
   // ============ FUNCIONES ================
   // Genera estrellas
@@ -162,181 +162,184 @@ export const Workers = () => {
                 </div>
               </div>
               {/* Footer */}
-              <div className="tarjeta-footer">
-                <Link
-                  to={`/Schedules`}
-                  className="btn-perfil"
-                >
-                  Agendar Cita
-                </Link>
-                {esAdmin && (
-                  <div className="admin-btns">
-                    <button
-                      className="btn-editar"
-                      onClick={() => abrirEditar(t)}
-                    >
-                      Editar
-                    </button>
-                    <button
-                      className="btn-eliminar"
-                      onClick={() => eliminar(t.id)}
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-                )}
-              </div>
+              <Link
+                to="/Schedules"
+                state={{
+                  tatuadorSeleccionado: t.nombre
+                }}
+                className="btn-perfil"
+              >
+                Agendar Cita
+              </Link>
+              {esAdmin && (
+                <div className="admin-btns">
+                  <button
+                    className="btn-editar"
+                    onClick={() => abrirEditar(t)}
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className="btn-eliminar"
+                    onClick={() => eliminar(t.id)}
+                  >
+                    Eliminar
+                  </button>
+                </div>
+              )}
             </div>
           ))}
         </div>
-      </main>
+      </main >
       {/* ======== MODAL ======= */}
-      {mostrarModal && (
-        <>
-          <div
-            className="modal-overlay"
-            onClick={cerrarModal}
-          />
-          <div className="modal">
-            {/* Header */}
-            <div className="modal-header">
-              <h2>
-                {modoEdicion
-                  ? "Editar Tatuador"
-                  : "Agregar Tatuador"}
-              </h2>
-              <button
-                className="modal-close"
-                onClick={cerrarModal}
-              >
-                X
-              </button>
-            </div>
-            {/* Body */}
-            <div className="modal-body">
-              {fotoPreview && (
-                <div className="foto-preview">
-                  <img
-                    src={fotoPreview}
-                    alt="preview"
-                  />
-                </div>
-              )}
-              <label>
-                Foto del tatuador *
-              </label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={cargarFoto}
-              />
-              <label>Nombre *</label>
-              <input
-                type="text"
-                placeholder="Nombre completo"
-                value={form.nombre}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    nombre: e.target.value
-                  })
-                }
-              />
-              <label>Cargo</label>
-              <select
-                value={form.cargo}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    cargo: e.target.value
-                  })
-                }
-              >
-                <option value="Tatuador">
-                  Tatuador
-                </option>
+      {
+        mostrarModal && (
+          <>
+            <div
+              className="modal-overlay"
+              onClick={cerrarModal}
+            />
+            <div className="modal">
+              {/* Header */}
+              <div className="modal-header">
+                <h2>
+                  {modoEdicion
+                    ? "Editar Tatuador"
+                    : "Agregar Tatuador"}
+                </h2>
+                <button
+                  className="modal-close"
+                  onClick={cerrarModal}
+                >
+                  X
+                </button>
+              </div>
+              {/* Body */}
+              <div className="modal-body">
+                {fotoPreview && (
+                  <div className="foto-preview">
+                    <img
+                      src={fotoPreview}
+                      alt="preview"
+                    />
+                  </div>
+                )}
+                <label>
+                  Foto del tatuador *
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={cargarFoto}
+                />
+                <label>Nombre *</label>
+                <input
+                  type="text"
+                  placeholder="Nombre completo"
+                  value={form.nombre}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      nombre: e.target.value
+                    })
+                  }
+                />
+                <label>Cargo</label>
+                <select
+                  value={form.cargo}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      cargo: e.target.value
+                    })
+                  }
+                >
+                  <option value="Tatuador">
+                    Tatuador
+                  </option>
 
-                <option value="Tatuadora">
-                  Tatuadora
-                </option>
-              </select>
-              <label>Especialidad *</label>
-              <input
-                type="text"
-                placeholder="Ej: Anime"
-                value={form.especialidad}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    especialidad: e.target.value
-                  })
-                }
-              />
-              <label>Años de experiencia</label>
-              <input
-                type="number"
-                min={1}
-                max={50}
-                value={form.experiencia}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    experiencia: Number(e.target.value)
-                  })
-                }
-              />
-              <label>Descripción</label>
-              <textarea
-                rows={3}
-                placeholder="Descripción..."
-                value={form.descripcion}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    descripcion: e.target.value
-                  })
-                }
-              />
-              <label>Estrellas</label>
-              <input
-                type="number"
-                min={1}
-                max={5}
-                value={form.estrellas}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    estrellas: Number(e.target.value)
-                  })
-                }
-              />
-              {/* Error */}
-              {errorForm && (
-                <p className="error-msg">
-                  {errorForm}
-                </p>
-              )}
+                  <option value="Tatuadora">
+                    Tatuadora
+                  </option>
+                </select>
+                <label>Especialidad *</label>
+                <input
+                  type="text"
+                  placeholder="Ej: Anime"
+                  value={form.especialidad}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      especialidad: e.target.value
+                    })
+                  }
+                />
+                <label>Años de experiencia</label>
+                <input
+                  type="number"
+                  min={1}
+                  max={50}
+                  value={form.experiencia}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      experiencia: Number(e.target.value)
+                    })
+                  }
+                />
+                <label>Descripción</label>
+                <textarea
+                  rows={3}
+                  placeholder="Descripción..."
+                  value={form.descripcion}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      descripcion: e.target.value
+                    })
+                  }
+                />
+                <label>Estrellas</label>
+                <input
+                  type="number"
+                  min={1}
+                  max={5}
+                  value={form.estrellas}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      estrellas: Number(e.target.value)
+                    })
+                  }
+                />
+                {/* Error */}
+                {errorForm && (
+                  <p className="error-msg">
+                    {errorForm}
+                  </p>
+                )}
+              </div>
+              {/* Footer */}
+              <div className="modal-footer">
+                <button
+                  className="btn-cancelar"
+                  onClick={cerrarModal}
+                >
+                  Cancelar
+                </button>
+                <button
+                  className="btn-guardar"
+                  onClick={guardar}
+                >
+                  {modoEdicion
+                    ? "Guardar cambios"
+                    : "Agregar"}
+                </button>
+              </div>
             </div>
-            {/* Footer */}
-            <div className="modal-footer">
-              <button
-                className="btn-cancelar"
-                onClick={cerrarModal}
-              >
-                Cancelar
-              </button>
-              <button
-                className="btn-guardar"
-                onClick={guardar}
-              >
-                {modoEdicion
-                  ? "Guardar cambios"
-                  : "Agregar"}
-              </button>
-            </div>
-          </div>
-        </>
-      )}
+          </>
+        )
+      }
     </>
   );
 };
