@@ -64,36 +64,45 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
      localStorage.setItem("usuarios", JSON.stringify(usuarios));
    };
 
-   const registrar = async (nombre: string, correo: string, password: string): Promise<{success: boolean, message?: string}> => {
-     try {
-       const usuarios = obtenerUsuariosRegistrados();
-       const correoNormalizado = correo.toLowerCase().trim();
+    const registrar = async (nombre: string, correo: string, password: string): Promise<{success: boolean, message?: string}> => {
+      try {
+        const usuarios = obtenerUsuariosRegistrados();
+        const correoNormalizado = correo.toLowerCase().trim();
 
-       const existe = usuarios.some(u => u.email?.toLowerCase() === correoNormalizado);
-       if (existe) {
-         return { success: false, message: "El correo ya está registrado" };
-       }
+        const existe = usuarios.some(u => u.email?.toLowerCase() === correoNormalizado);
+        if (existe) {
+          return { success: false, message: "El correo ya está registrado" };
+        }
 
-       // Determinar cargo basado en el correo (solo para demo)
-       let charge = "Normal";
-       if (correoNormalizado.includes("admin")) charge = "Admin";
-       else if (correoNormalizado.includes("ceo") || correoNormalizado.includes("owner")) charge = "CEO";
+        // Array de correos admin predefinidos
+        const adminEmails = [
+          "admin@inkcreature.com",
+          "ceo@inkcreature.com",
+          "owner@inkcreature.com",
+          "administrador@inkcreature.com"
+        ];
 
-       const userData: Usuario = {
-         uid: Date.now().toString(),
-         nombre,
-         email: correoNormalizado,
-         charge
-       };
+        // Determinar cargo basado en si el correo está en la lista de admins
+        let charge = "Normal";
+        if (adminEmails.some(adminEmail => correoNormalizado === adminEmail.toLowerCase().trim())) {
+          charge = "Admin";
+        }
 
-       usuarios.push(userData);
-       guardarUsuariosRegistrados(usuarios);
-       actualizarEstadoLocal(userData);
-       return { success: true };
-     } catch (error) {
-       return { success: false, message: "Error al registrar" };
-     }
-   };
+        const userData: Usuario = {
+          uid: Date.now().toString(),
+          nombre,
+          email: correoNormalizado,
+          charge
+        };
+
+        usuarios.push(userData);
+        guardarUsuariosRegistrados(usuarios);
+        actualizarEstadoLocal(userData);
+        return { success: true };
+      } catch (error) {
+        return { success: false, message: "Error al registrar" };
+      }
+    };
 
     const login = async (correo: string, password: string): Promise<{success: boolean, message?: string}> => {
       try {
@@ -105,6 +114,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         if (!usuario) {
           return { success: false, message: "Usuario no encontrado" };
+        }
+
+        // Array de correos admin predefinidos
+        const adminEmails = [
+          "admin@inkcreature.com",
+          "ceo@inkcreature.com",
+          "owner@inkcreature.com",
+          "administrador@inkcreature.com"
+        ];
+
+        // Verificar si es un admin y validar contraseña específica (1-8)
+        const esAdmin = adminEmails.some(adminEmail => correoNormalizado === adminEmail.toLowerCase().trim());
+        if (esAdmin) {
+          // Para admins, la contraseña debe ser un número del 1 al 8
+          const passwordNum = parseInt(password);
+          if (isNaN(passwordNum) || passwordNum < 1 || passwordNum > 8) {
+            return { success: false, message: "Contraseña de administrador inválida" };
+          }
         }
 
         actualizarEstadoLocal(usuario);
