@@ -135,7 +135,7 @@
 @media (max-width: 600px) {
 
   .navbar {
-    flex-direction: row; /* 🔥 sigue horizontal */
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
@@ -145,7 +145,7 @@
 
   .navbar-links {
     display: flex;
-    flex-direction: row; /* 🔥 horizontal */
+    flex-direction: row;
     gap: 8px;
     flex-wrap: nowrap;
   }
