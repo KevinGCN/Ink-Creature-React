@@ -3,7 +3,7 @@
   width: 100%;
   min-height: 100vh;
   padding: 40px 20px;
-  background-color: #111111;
+  background-color: #fdfdfd;
   color: white;
 }
 
@@ -17,7 +17,7 @@
   margin-bottom: 10px;
 }
 .encabezado p {
-  color: #bdbdbd;
+  color: white;
   margin-bottom: 20px;
 }
 
@@ -89,7 +89,7 @@
   margin-bottom: 10px;
 }
 .cargo {
-  color: #bdbdbd;
+  color: white;
   margin-bottom: 8px;
 }
 .experiencia {
@@ -113,7 +113,7 @@
   text-align: center;
   padding: 10px;
   border-radius: 10px;
-  background-color: #27272a;
+  background-color: #ffffff;
   color: white;
   text-decoration: none;
   transition: 0.3s;
