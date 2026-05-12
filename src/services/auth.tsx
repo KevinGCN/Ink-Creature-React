@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("usuarios", JSON.stringify(usuarios));
   };
 
-  const registrar = async (nombre: string, correo: string, password: string): Promise<{ success: boolean, message?: string }> => {
+  const registrar = async (nombre: string, correo: string): Promise<{ success: boolean, message?: string }> => {
     try {
       const usuarios = obtenerUsuariosRegistrados();
       const correoNormalizado = correo.toLowerCase().trim();
@@ -106,7 +106,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (correo: string, password: string): Promise<{ success: boolean, message?: string }> => {
     try {
       // Read password to avoid unused variable warning
-      const passwordLength = password.length;
+
+      /*const passwordLength = password.length;*/
       const usuarios = obtenerUsuariosRegistrados();
       const correoNormalizado = correo.toLowerCase().trim();
       const usuario = usuarios.find(u => u.email?.toLowerCase() === correoNormalizado);
