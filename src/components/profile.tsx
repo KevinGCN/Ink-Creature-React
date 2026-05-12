@@ -81,9 +81,8 @@ export const Profile = () => {
     setMensajeError("");
   };
 
-  const irAgenda = () => navigate("/schedule");
-  const irResenas = () => navigate("/");
-  const editarCita = (cita: Cita) => navigate("/schedule", { state: { citaEditar: cita } });
+  const irAgenda = () => navigate("/schedules");
+  const editarCita = (cita: Cita) => navigate("/schedules", { state: { citaEditar: cita } });
 
   return (
     <div style={{ maxWidth: "800px", margin: "20px auto", padding: "20px", fontFamily: "system-ui, sans-serif" }}>

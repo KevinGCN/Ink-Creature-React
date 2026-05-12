@@ -23,7 +23,27 @@ export const Navbar = () => {
           <div className="navbar-links">
             <Link to="/" className="navbar-link">Home</Link>
             <Link to="/gallery" className="navbar-link">Galería</Link>
-            <Link to="/home" className="navbar-link">Home</Link>
+            <Link to="/workers" className="navbar-link">Tatuadores</Link>
+            <Link to="/info" className="navbar-link">Información</Link>
+            <Link to="/schedules" className="navbar-link">Citas</Link>
+          </div>
+          <div className="menu-ajustes">
+            {!isLoggedIn ? (
+              <button onClick={abrirLogin} className="navbar-login-btn">Iniciar sesión</button>
+            ) : (
+              <>
+                <button onClick={() => setMostrarAjustes(!mostrarAjustes)} className="navbar-user-btn">
+                  <div className="navbar-avatar">
+                    {(usuario?.nombre || usuario?.email || "U").charAt(0).toUpperCase()}
+                  </div>
+                  <span>{usuario?.nombre?.split(" ")[0] || usuario?.email?.split("@")[0] || "Usuario"}</span>
+                </button>
+                <div className="dropdown">
+                  <button onClick={irPerfil}>Perfil</button>
+                  <button onClick={handleLogout}>Cerrar sesión</button>
+                </div>
+              </>
+            )}
           </div>
            <div className="menu-ajustes">
              {!isLoggedIn ? (
