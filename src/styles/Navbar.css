@@ -132,49 +132,47 @@
 }
 
 /*======RESPONSIVE=========*/
-@media (max-width: 600px) {
+/* =====================
+   RESPONSIVE NAVBAR
+   ===================== */
+
+@media (max-width: 768px) {
 
   .navbar {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    overflow-x: auto;
+    padding: 10px 12px;
     gap: 10px;
   }
 
   .navbar-links {
-    display: flex;
-    flex-direction: row;
     gap: 8px;
     flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .navbar-links::-webkit-scrollbar {
+    display: none;
   }
 
   .navbar-link {
-    white-space: nowrap;
     font-size: 13px;
     padding: 6px 10px;
-  }
-
-  .navbar-user-btn {
-    padding: 4px 8px;
     white-space: nowrap;
   }
 
-  .navbar-login-btn {
-    white-space: nowrap;
-    font-size: 13px;
+  .navbar-user-btn span {
+    display: none;
   }
 
   .navbar-avatar {
     width: 28px;
     height: 28px;
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .dropdown {
-    min-width: 140px;
-    top: 40px;
+    right: -5px;
+    min-width: 130px;
   }
 }
 
