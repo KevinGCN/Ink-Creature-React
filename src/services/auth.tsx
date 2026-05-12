@@ -7,6 +7,7 @@ interface Usuario {
   email?: string;
   photoURL?: string;
   charge?: string;
+  password?: string;
 }
 
 interface AuthContextType {
@@ -91,7 +92,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         uid: Date.now().toString(),
         nombre,
         email: correoNormalizado,
-        charge
+        charge,
+        password
       };
 
       usuarios.push(userData);
@@ -103,47 +105,43 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const login = async (correo: string, password: string): Promise<{ success: boolean, message?: string }> => {
-    try {
-      // Read password to avoid unused variable warning
-    const passwordLength = password.length;  
-      const usuarios = obtenerUsuariosRegistrados();
-      const correoNormalizado = correo.toLowerCase().trim();
-      const usuario = usuarios.find(u => u.email?.toLowerCase() === correoNormalizado);
+    const login = async (correo: string, password: string): Promise<{ success: boolean, message?: string }> => {
+      try {
+        const usuarios = obtenerUsuariosRegistrados();
+        const correoNormalizado = correo.toLowerCase().trim();
+        const usuario = usuarios.find(u => u.email?.toLowerCase() === correoNormalizado);
 
-      if (!usuario) {
-        return { success: false, message: "Usuario no encontrado" };
-      }
-
-      // Array de correos admin predefinidos
-      const adminEmails = [
-        "admin@inkcreature.com",
-        "ceo@inkcreature.com",
-        "owner@inkcreature.com",
-        "administrador@inkcreature.com"
-      ];
-
-      // Verificar si es un admin y validar contraseña específica (1-8)
-      const esAdmin = adminEmails.some(adminEmail => correoNormalizado === adminEmail.toLowerCase().trim());
-      if (esAdmin) {
-        // Para admins, la contraseña debe ser un número del 1 al 8
-        const passwordNum = parseInt(password);
-        if (isNaN(passwordNum) || passwordNum < 1 || passwordNum > 8) {
-          return { success: false, message: "Contraseña de administrador inválida" };
+        if (!usuario) {
+          return { success: false, message: "Usuario no encontrado" };
         }
-      } else {
-        // Para usuarios normales, requerir contraseña no vacía
-        if (password.length === 0) {
-          return { success: false, message: "Contraseña requerida" };
-        }
-      }
 
-      actualizarEstadoLocal(usuario);
-      return { success: true };
-    } catch {
-      return { success: false, message: "Error al iniciar sesión" };
-    }
-  }
+        // Admin password validation (1-8)
+        const adminEmails = [
+          "admin@inkcreature.com",
+          "ceo@inkcreature.com",
+          "owner@inkcreature.com",
+          "administrador@inkcreature.com"
+        ];
+
+        const esAdmin = adminEmails.some(adminEmail => correoNormalizado === adminEmail.toLowerCase().trim());
+        if (esAdmin) {
+          const passwordNum = parseInt(password);
+          if (isNaN(passwordNum) || passwordNum < 1 || passwordNum > 8) {
+            return { success: false, message: "Contraseña de administrador inválida" };
+          }
+        } else {
+          // Normal users: verify stored password matches
+          if (!usuario.password || usuario.password !== password) {
+            return { success: false, message: "Contraseña incorrecta" };
+          }
+        }
+
+        actualizarEstadoLocal(usuario);
+        return { success: true };
+      } catch {
+        return { success: false, message: "Error al iniciar sesión" };
+      }
+    };
 
   const loginConGoogle = async (): Promise<boolean> => {
     try {
