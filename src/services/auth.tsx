@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("usuarios", JSON.stringify(usuarios));
   };
 
-  const registrar = async (nombre: string, correo: string, password: string): Promise<{ success: boolean, message?: string }> => {
+  const registrar = async (nombre: string, correo: string): Promise<{ success: boolean, message?: string }> => {
     try {
       const usuarios = obtenerUsuariosRegistrados();
       const correoNormalizado = correo.toLowerCase().trim();
