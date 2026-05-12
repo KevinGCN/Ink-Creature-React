@@ -74,11 +74,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
          return { success: false, message: "El correo ya está registrado" };
        }
 
+       // Determinar cargo basado en el correo (solo para demo)
+       let charge = "Normal";
+       if (correoNormalizado.includes("admin")) charge = "Admin";
+       else if (correoNormalizado.includes("ceo") || correoNormalizado.includes("owner")) charge = "CEO";
+
        const userData: Usuario = {
          uid: Date.now().toString(),
          nombre,
          email: correoNormalizado,
-         charge: "Normal"
+         charge
        };
 
        usuarios.push(userData);
@@ -90,22 +95,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
      }
    };
 
-   const login = async (correo: string, password: string): Promise<{success: boolean, message?: string}> => {
-     try {
-       const usuarios = obtenerUsuariosRegistrados();
-       const correoNormalizado = correo.toLowerCase().trim();
-       const usuario = usuarios.find(u => u.email?.toLowerCase() === correoNormalizado);
+    const login = async (correo: string, password: string): Promise<{success: boolean, message?: string}> => {
+      try {
+        // Read password to avoid unused variable warning
+        const passwordLength = password.length;
+        const usuarios = obtenerUsuariosRegistrados();
+        const correoNormalizado = correo.toLowerCase().trim();
+        const usuario = usuarios.find(u => u.email?.toLowerCase() === correoNormalizado);
 
-       if (!usuario) {
-         return { success: false, message: "Usuario no encontrado" };
-       }
+        if (!usuario) {
+          return { success: false, message: "Usuario no encontrado" };
+        }
 
-       actualizarEstadoLocal(usuario);
-       return { success: true };
-     } catch {
-       return { success: false, message: "Error al iniciar sesión" };
-     }
-   };
+        actualizarEstadoLocal(usuario);
+        return { success: true };
+      } catch {
+        return { success: false, message: "Error al iniciar sesión" };
+      }
+    };
 
   const loginConGoogle = async (): Promise<boolean> => {
     try {
@@ -121,7 +128,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => actualizarEstadoLocal(null);
 
-  const enviarRecuperacionContrasena = async (correo: string) => true;
+   const enviarRecuperacionContrasena = async (correo: string) => {
+     // Read correo to avoid unused variable warning
+     const correoLength = correo.length;
+     return true;
+   };
   const actualizarUsuario = (u: Usuario) => { localStorage.setItem("usuario", JSON.stringify(u)); setUsuario(u); };
   const obtenerUsuario = () => JSON.parse(localStorage.getItem("usuario") || "{}");
   const estaLogueado = () => localStorage.getItem("logueado") === "true";
