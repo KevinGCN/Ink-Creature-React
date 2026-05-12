@@ -14,7 +14,6 @@ export const Schedules = () => {
 
   /* ======ESTADOS======= */
   // Guarda el número del mes actual
-  // Marzo = 2
   const [mesActual, setMesActual] = useState(
     fecha.getMonth()
   );
@@ -28,12 +27,10 @@ export const Schedules = () => {
   const [diasMes, setDiasMes] = useState<number[]>([]);
 
   // Guarda el día seleccionado por el usuario
-  // Puede ser null si no se ha seleccionado nada
   const [fechaSeleccionada, setFechaSeleccionada] =
-    useState<number | null>(null);
+    useState<number>();
 
   // Guarda la hora seleccionada
-  // Ejemplo: "8:00 AM"
   const [horaSeleccionada, setHoraSeleccionada] =
     useState("");
 
@@ -85,9 +82,7 @@ export const Schedules = () => {
   ];
 
   /* ======GENERAR CALENDARIO======= */
-
-  // Esta función crea automáticamente
-  // todos los días del mes seleccionado
+  // Esta función crea automáticamente todos los días del mes seleccionado
   const generarCalendario = () => {
     // Obtiene cuántos días tiene el mes actual
     const totalDias = new Date(
@@ -97,8 +92,7 @@ export const Schedules = () => {
     ).getDate();
     // Array Temporal para guardar los días
     const dias = [];
-    // Recorre desde el día 1
-    // hasta el último día del mes
+    // Recorre desde el día 1 hasta el último día del mes
     for (let i = 1; i <= totalDias; i++) {
       dias.push(i);
     }
