@@ -1,12 +1,14 @@
 import "../styles/schedules.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { tatuadores } from "../services/data";
 import { useAuth } from "../services/auth";
 
 export const Schedules = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const citaEditar = location.state?.citaEditar;
+  const tatuadorInicial = location.state?.tatuadorSeleccionado;
   const { usuario } = useAuth();
   /* ======FECHA ACTUAL======= */
   // Guarda la fecha actual del computador del usuario
@@ -39,15 +41,7 @@ export const Schedules = () => {
     useState("");
 
   // Guarda todas las citas creadas
-  // Cada cita contiene:
-  // fecha, hora y tatuador
-  const [citas, setCitas] = useState<any[]>(() => {
-    const citasGuardadas =
-      localStorage.getItem("citas");
-    return citasGuardadas
-      ? JSON.parse(citasGuardadas)
-      : [];
-  });
+  const [citas, setCitas] = useState<any[]>([]);
 
   // Indica si se está editando una cita
   // false = creando nueva cita
@@ -111,11 +105,35 @@ export const Schedules = () => {
   }, [mesActual, anioActual]);
 
   useEffect(() => {
-    localStorage.setItem(
-      "citas",
-      JSON.stringify(citas)
-    );
-  }, [citas]);
+    if (usuario) {
+      const citasGuardadas =
+        localStorage.getItem(
+          `citas_${usuario.nombre}`
+        );
+      setCitas(
+        citasGuardadas
+          ? JSON.parse(citasGuardadas)
+          : []
+      );
+    }
+  }, [usuario]);
+
+  useEffect(() => {
+    if (usuario) {
+      localStorage.setItem(
+        `citas_${usuario.nombre}`,
+        JSON.stringify(citas)
+      );
+    }
+  }, [citas, usuario]);
+
+  useEffect(() => {
+    if (tatuadorInicial) {
+      setTatuadorSeleccionado(
+        tatuadorInicial
+      );
+    }
+  }, [tatuadorInicial]);
 
   useEffect(() => {
     if (citaEditar) {
@@ -177,6 +195,10 @@ export const Schedules = () => {
 
   // Crea una nueva cita
   const reservar = () => {
+    if (!usuario) {
+      alert("Debes iniciar sesión para reservar una cita");
+      return;
+    }
     // Verifica que todos los datos estén completos
     if (
       !fechaSeleccionada ||
@@ -192,7 +214,7 @@ export const Schedules = () => {
       id: citaEditar
         ? citaEditar.id
         : Date.now(),
-      usuario: usuario?.nombre || "Invitado",
+      usuario: usuario?.nombre,
 
       // Construye la fecha completa
       fecha:
@@ -216,7 +238,7 @@ export const Schedules = () => {
         );
       setCitas(citasActualizadas);
       localStorage.setItem(
-        "citas",
+        `citas_${usuario.nombre}`,
         JSON.stringify(citasActualizadas)
       );
       alert("Cita actualizada");
@@ -227,16 +249,17 @@ export const Schedules = () => {
       ];
       setCitas(nuevasCitas);
       localStorage.setItem(
-        "citas",
+        `citas_${usuario.nombre}`,
         JSON.stringify(nuevasCitas)
       );
-      alert("Cita reservada");
     }
-
     // Mensaje de confirmación
     alert("Cita reservada");
   };
 
+  const retornar = () => {
+    navigate("/Workers");
+  }
   return (
     <div className="container">
       {/* Título principal */}
@@ -391,7 +414,8 @@ export const Schedules = () => {
       {/* ==========BOTONES========== */}
       <div className="actions">
         {/* Botón cancelar */}
-        <button className="cancelar">
+        <button className="cancelar"
+          onClick={retornar}>
           Cancelar
         </button>
         {/* Botón reservar */}
@@ -411,21 +435,16 @@ export const Schedules = () => {
       <div>
         {/* Recorre todas las citas */}
         {
-          citas
-            .filter(
-              (cita) =>
-                cita.usuario === usuario?.nombre
-            )
-            .map((cita, index) => (
-              <p key={index}>
-                {/* Información de cada cita */}
-                {cita.fecha}
-                {" - "}
-                {cita.hora}
-                {" - "}
-                {cita.tatuador}
-              </p>
-            ))
+          citas.map((cita, index) => (
+            <p key={index}>
+              {/* Información de cada cita */}
+              {cita.fecha}
+              {" - "}
+              {cita.hora}
+              {" - "}
+              {cita.tatuador}
+            </p>
+          ))
         }
       </div>
     </div>
