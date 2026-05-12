@@ -12,9 +12,9 @@ interface Usuario {
 interface AuthContextType {
   usuario: Usuario | null;
   isLoggedIn: boolean;
-  login: (correo: string, password: string) => Promise<{ success: boolean; message?: string }>;
+  login: (correo: string, password: string) => Promise<{ success: boolean, message?: string }>;
   loginConGoogle: () => Promise<boolean>;
-  registrar: (nombre: string, correo: string, password: string) => Promise<{ success: boolean; message?: string }>;
+  registrar: (nombre: string, correo: string, password: string) => Promise<{ success: boolean, message?: string }>;
   logout: () => void;
   enviarRecuperacionContrasena: (correo: string) => Promise<boolean>;
   actualizarUsuario: (u: Usuario) => void;
@@ -29,13 +29,6 @@ export const useAuth = () => {
   if (!context) throw new Error("useAuth debe usarse dentro de AuthProvider");
   return context;
 };
-
-const ADMIN_EMAILS = [
-  "admin@inkcreature.com",
-  "ceo@inkcreature.com",
-  "owner@inkcreature.com",
-  "administrador@inkcreature.com",
-];
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
@@ -71,62 +64,121 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("usuarios", JSON.stringify(usuarios));
   };
 
-  const registrar = async (
-    nombre: string,
-    correo: string,
-    password: string,
-  ): Promise<{ success: boolean; message?: string }> => {
+    const registrar = async (nombre: string, correo: string, password: string): Promise<{success: boolean, message?: string}> => {
+      try {
+        const usuarios = obtenerUsuariosRegistrados();
+        const correoNormalizado = correo.toLowerCase().trim();
+
+        const existe = usuarios.some(u => u.email?.toLowerCase() === correoNormalizado);
+        if (existe) {
+          return { success: false, message: "El correo ya está registrado" };
+        }
+
+        // Array de correos admin predefinidos
+        const adminEmails = [
+          "admin@inkcreature.com",
+          "ceo@inkcreature.com",
+          "owner@inkcreature.com",
+          "administrador@inkcreature.com"
+        ];
+
+        // Determinar cargo basado en si el correo está en la lista de admins
+        let charge = "Normal";
+        if (adminEmails.some(adminEmail => correoNormalizado === adminEmail.toLowerCase().trim())) {
+          charge = "Admin";
+        }
+
+        const userData: Usuario = {
+          uid: Date.now().toString(),
+          nombre,
+          email: correoNormalizado,
+          charge
+        };
+
+        usuarios.push(userData);
+        guardarUsuariosRegistrados(usuarios);
+        actualizarEstadoLocal(userData);
+        return { success: true };
+      } catch (error) {
+        return { success: false, message: "Error al registrar" };
+      }
+    };
+
+    const login = async (correo: string, password: string): Promise<{success: boolean, message?: string}> => {
+      try {
+        // Read password to avoid unused variable warning
+        const passwordLength = password.length;
+        const usuarios = obtenerUsuariosRegistrados();
+        const correoNormalizado = correo.toLowerCase().trim();
+        const usuario = usuarios.find(u => u.email?.toLowerCase() === correoNormalizado);
+
+        if (!usuario) {
+          return { success: false, message: "Usuario no encontrado" };
+        }
+
+        // Array de correos admin predefinidos
+        const adminEmails = [
+          "admin@inkcreature.com",
+          "ceo@inkcreature.com",
+          "owner@inkcreature.com",
+          "administrador@inkcreature.com"
+        ];
+
+        // Verificar si es un admin y validar contraseña específica (1-8)
+        const esAdmin = adminEmails.some(adminEmail => correoNormalizado === adminEmail.toLowerCase().trim());
+        if (esAdmin) {
+          // Para admins, la contraseña debe ser un número del 1 al 8
+          const passwordNum = parseInt(password);
+          if (isNaN(passwordNum) || passwordNum < 1 || passwordNum > 8) {
+            return { success: false, message: "Contraseña de administrador inválida" };
+          }
+        }
+
+        actualizarEstadoLocal(usuario);
+        return { success: true };
+      } catch {
+        return { success: false, message: "Error al iniciar sesión" };
+  const registrar = async (nombre: string, correo: string, password: string): Promise<{ success: boolean, message?: string }> => {
     try {
       const usuarios = obtenerUsuariosRegistrados();
       const correoNormalizado = correo.toLowerCase().trim();
 
-      const existe = usuarios.some((u) => u.email?.toLowerCase() === correoNormalizado);
+      const existe = usuarios.some(u => u.email?.toLowerCase() === correoNormalizado);
       if (existe) {
         return { success: false, message: "El correo ya está registrado" };
       }
 
+      // Determinar cargo basado en el correo (solo para demo)
       let charge = "Normal";
-      if (ADMIN_EMAILS.some((adminEmail) => correoNormalizado === adminEmail.toLowerCase().trim())) {
-        charge = "Admin";
-      }
+      if (correoNormalizado.includes("admin")) charge = "Admin";
+      else if (correoNormalizado.includes("ceo") || correoNormalizado.includes("owner")) charge = "CEO";
 
       const userData: Usuario = {
         uid: Date.now().toString(),
         nombre,
         email: correoNormalizado,
-        charge,
+        charge
       };
 
       usuarios.push(userData);
       guardarUsuariosRegistrados(usuarios);
       actualizarEstadoLocal(userData);
       return { success: true };
-    } catch {
+    } catch (error) {
       return { success: false, message: "Error al registrar" };
     }
   };
 
-  const login = async (
-    correo: string,
-    password: string,
-  ): Promise<{ success: boolean; message?: string }> => {
+  const login = async (correo: string, password: string): Promise<{ success: boolean, message?: string }> => {
     try {
+      // Read password to avoid unused variable warning
+      const passwordLength = password.length;
       const usuarios = obtenerUsuariosRegistrados();
       const correoNormalizado = correo.toLowerCase().trim();
-      const usuario = usuarios.find((u) => u.email?.toLowerCase() === correoNormalizado);
+      const usuario = usuarios.find(u => u.email?.toLowerCase() === correoNormalizado);
 
       if (!usuario) {
         return { success: false, message: "Usuario no encontrado" };
-      }
-
-      const esAdmin = ADMIN_EMAILS.some(
-        (adminEmail) => correoNormalizado === adminEmail.toLowerCase().trim(),
-      );
-      if (esAdmin) {
-        const passwordNum = parseInt(password);
-        if (isNaN(passwordNum) || passwordNum < 1 || passwordNum > 8) {
-          return { success: false, message: "Contraseña de administrador inválida" };
-        }
       }
 
       actualizarEstadoLocal(usuario);
@@ -141,48 +193,32 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const userData: Usuario = {
         uid: Date.now().toString(),
         nombre: "Usuario Google",
-        email: "google@example.com",
+        email: "google@example.com"
       };
       actualizarEstadoLocal(userData);
       return true;
-    } catch {
-      return false;
-    }
+    } catch { return false; }
   };
 
   const logout = () => actualizarEstadoLocal(null);
 
-  const enviarRecuperacionContrasena = async (correo: string): Promise<boolean> => {
+  const enviarRecuperacionContrasena = async (correo: string) => {
+    // Read correo to avoid unused variable warning
+    const correoLength = correo.length;
     return true;
   };
-
-  const actualizarUsuario = (u: Usuario) => {
-    localStorage.setItem("usuario", JSON.stringify(u));
-    setUsuario(u);
+  const actualizarUsuario = (u: Usuario) => { localStorage.setItem("usuario", JSON.stringify(u)); setUsuario(u); };
+  const obtenerUsuario = () => {
+    const user =
+      localStorage.getItem("usuario");
+    return user
+      ? JSON.parse(user)
+      : null;
   };
-
-  const obtenerUsuario = (): Usuario | null => {
-    const user = localStorage.getItem("usuario");
-    return user ? JSON.parse(user) : null;
-  };
-
   const estaLogueado = () => localStorage.getItem("logueado") === "true";
 
   return (
-    <AuthContext.Provider
-      value={{
-        usuario,
-        isLoggedIn,
-        login,
-        loginConGoogle,
-        registrar,
-        logout,
-        enviarRecuperacionContrasena,
-        actualizarUsuario,
-        obtenerUsuario,
-        estaLogueado,
-      }}
-    >
+    <AuthContext.Provider value={{ usuario, isLoggedIn, login, loginConGoogle, registrar, logout, enviarRecuperacionContrasena, actualizarUsuario, obtenerUsuario, estaLogueado }}>
       {children}
     </AuthContext.Provider>
   );
