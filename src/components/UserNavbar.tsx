@@ -2,6 +2,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../services/auth";
 
+/**
+ * UserNavbar: Componente de barra de usuario posiciónada en la esquina superior derecha.
+ * Similar a Navbar pero con estilos diferentes (Tailwind CSS).
+ * Features:
+ * - Si NO logueado → botón "Sesión" que abre modal de login
+ * - Si logueado → avatar con foto o inicial + nombre, y dropdown de ajustes
+ * - Dropdown incluye: Perfil y Cerrar sesión
+ * - Usa clases de Tailwind para posicionamiento fijo (fixed) y estilos
+ */
 export const UserNavbar = () => {
   const [mostrarLogin, setMostrarLogin] = useState(false);
   const [mostrarAjustes, setMostrarAjustes] = useState(false);
@@ -17,15 +26,24 @@ export const UserNavbar = () => {
     setMostrarLogin(false);
   };
 
+  /**
+   * Alterna la visibilidad del dropdown de ajustes
+   */
   const toggleAjustes = () => {
     setMostrarAjustes(!mostrarAjustes);
   };
 
+  /**
+   * Navega a la página de perfil y cierra el dropdown
+   */
   const irPerfil = () => {
     setMostrarAjustes(false);
     navigate("/profile");
   };
 
+  /**
+   * Cierra sesión, limpia estado y regresa al home
+   */
   const logout = () => {
     authLogout();
     setMostrarAjustes(false);
@@ -41,6 +59,7 @@ export const UserNavbar = () => {
           z-1000
         "
       >
+        {/* Si no está logueado → botón de login */}
         {!isLoggedIn ? (
           <button
             onClick={abrirLogin}
@@ -60,6 +79,7 @@ export const UserNavbar = () => {
             Sesión
           </button>
         ) : (
+          /* Si está logueado → botón de usuario con avatar */
           <div className="relative">
             <button
               onClick={toggleAjustes}
@@ -75,6 +95,7 @@ export const UserNavbar = () => {
                 overflow-hidden
               "
             >
+              {/* Avatar circular con foto o inicial */}
               <div
                 className="
                   w-8 h-8
@@ -86,11 +107,25 @@ export const UserNavbar = () => {
                   font-bold
                 "
               >
-                {(usuario?.nombre || usuario?.email || "U")
-                  .charAt(0)
-                  .toUpperCase()}
+                {usuario?.photoURL ? (
+                  <img
+                    src={usuario.photoURL}
+                    alt="Foto"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      borderRadius: "50%",
+                      objectFit: "cover"
+                    }}
+                  />
+                ) : (
+                  (usuario?.nombre || usuario?.email || "U")
+                    .charAt(0)
+                    .toUpperCase()
+                )}
               </div>
 
+              {/* Nombre o username */}
               <span
                 className="
                   text-sm
@@ -105,6 +140,7 @@ export const UserNavbar = () => {
               </span>
             </button>
 
+            {/* Dropdown condicional - solo si mostrarAjustes es true */}
             {mostrarAjustes && (
               <div
                 className="
@@ -158,6 +194,7 @@ export const UserNavbar = () => {
         )}
       </div>
 
+      {/* Modal de login - implementación pendiente, solo placeholder */}
       {mostrarLogin && (
         <div
           className="
