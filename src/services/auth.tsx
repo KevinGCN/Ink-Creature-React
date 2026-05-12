@@ -171,43 +171,56 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
    * 2. Admin: password numérico 1-8
    * 3. Normal: password debe coincidir exactamente con la guardada
    */
-  const login = async (correo: string, password: string): Promise<{ success: boolean, message?: string }> => {
-    try {
-      const usuarios = obtenerUsuariosRegistrados();
-      const correoNormalizado = correo.toLowerCase().trim();
-      const usuario = usuarios.find(u => u.email?.toLowerCase() === correoNormalizado);
+   const login = async (correo: string, password: string): Promise<{ success: boolean, message?: string }> => {
+     try {
+       const usuarios = obtenerUsuariosRegistrados();
+       const correoNormalizado = correo.toLowerCase().trim();
 
-      if (!usuario) {
-        return { success: false, message: "Usuario no encontrado" };
-      }
+       // Admin email list
+       const adminEmails = [
+         "admin@inkcreature.com",
+         "ceo@inkcreature.com",
+         "owner@inkcreature.com",
+         "administrador@inkcreature.com"
+       ];
 
-      // Admin password validation (1-8)
-      const adminEmails = [
-        "admin@inkcreature.com",
-        "ceo@inkcreature.com",
-        "owner@inkcreature.com",
-        "administrador@inkcreature.com"
-      ];
+       const esAdmin = adminEmails.some(adminEmail => correoNormalizado === adminEmail.toLowerCase().trim());
 
-      const esAdmin = adminEmails.some(adminEmail => correoNormalizado === adminEmail.toLowerCase().trim());
-      if (esAdmin) {
-        const passwordNum = parseInt(password);
-        if (isNaN(passwordNum) || passwordNum < 1 || passwordNum > 8) {
-          return { success: false, message: "Contraseña de administrador inválida" };
-        }
-      } else {
-        // Normal users: verify stored password matches
-        if (!usuario.password || usuario.password !== password) {
-          return { success: false, message: "Contraseña incorrecta" };
-        }
-      }
+       // Check if user exists in localStorage
+       let usuario = usuarios.find(u => u.email?.toLowerCase() === correoNormalizado);
 
-      actualizarEstadoLocal(usuario);
-      return { success: true };
-    } catch {
-      return { success: false, message: "Error al iniciar sesión" };
-    }
-  };
+       // If user doesn't exist but is an admin email, allow login with specific password
+       if (!usuario && esAdmin) {
+         if (password !== "12345678") {
+           return { success: false, message: "Contraseña de administrador inválida" };
+         }
+         // Create admin user on the fly
+         usuario = {
+           uid: "admin-" + correoNormalizado,
+           nombre: "Administrador",
+           email: correoNormalizado,
+           charge: "Admin"
+         };
+         actualizarEstadoLocal(usuario);
+         return { success: true };
+       }
+
+       // User must exist for non-admin emails
+       if (!usuario) {
+         return { success: false, message: "Usuario no encontrado" };
+       }
+
+       // Normal user: verify stored password
+       if (!usuario.password || usuario.password !== password) {
+         return { success: false, message: "Contraseña incorrecta" };
+       }
+
+       actualizarEstadoLocal(usuario);
+       return { success: true };
+     } catch {
+       return { success: false, message: "Error al iniciar sesión" };
+     }
+   };
 
   /**
    * Login con Google (simulado)
