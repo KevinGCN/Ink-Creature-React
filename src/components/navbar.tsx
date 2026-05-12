@@ -45,26 +45,6 @@ export const Navbar = () => {
               </>
             )}
           </div>
-           <div className="menu-ajustes">
-             {!isLoggedIn ? (
-               <button onClick={abrirLogin} className="navbar-login-btn">Iniciar sesión</button>
-             ) : (
-               <>
-                 <button onClick={() => setMostrarAjustes(!mostrarAjustes)} className="navbar-user-btn">
-                   <div className="navbar-avatar">
-                     {(usuario?.nombre || usuario?.email || "U").charAt(0).toUpperCase()}
-                   </div>
-                   <span>{usuario?.nombre?.split(" ")[0] || usuario?.email?.split("@")[0] || "Usuario"}</span>
-                 </button>
-                 {mostrarAjustes && (
-                   <div className="dropdown">
-                     <button onClick={irPerfil}>Perfil</button>
-                     <button onClick={handleLogout}>Cerrar sesión</button>
-                   </div>
-                 )}
-               </>
-             )}
-           </div>
         </div>
       </nav>
       {mostrarLogin && <Login onClose={cerrarLogin} />}
