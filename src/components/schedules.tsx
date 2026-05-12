@@ -1,10 +1,12 @@
 import "../styles/schedules.css";
+import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { tatuadores } from "../services/data";
 import { useAuth } from "../services/auth";
 
 export const Schedules = () => {
-
+  const location = useLocation();
+  const citaEditar = location.state?.citaEditar;
   const { usuario } = useAuth();
   /* ======FECHA ACTUAL======= */
   // Guarda la fecha actual del computador del usuario
@@ -121,6 +123,21 @@ export const Schedules = () => {
     );
   }, [citas]);
 
+  useEffect(() => {
+    if (citaEditar) {
+      setFechaSeleccionada(
+        Number(citaEditar.fecha.split("/")[0].trim())
+      );
+      setHoraSeleccionada(
+        citaEditar.hora
+      );
+      setTatuadorSeleccionado(
+        citaEditar.tatuador
+      );
+    }
+
+  }, [citaEditar]);
+
   /* ============VALIDAR FECHA PASADA============= */
 
   // Verifica si una fecha ya pasó
@@ -178,7 +195,9 @@ export const Schedules = () => {
 
     // Crea el objeto de la nueva cita
     const nuevaCita = {
-
+      id: citaEditar
+        ? citaEditar.id
+        : Date.now(),
       usuario: usuario?.nombre || "Invitado",
 
       // Construye la fecha completa
@@ -194,10 +213,31 @@ export const Schedules = () => {
 
     // Agrega la nueva cita
     // sin borrar las anteriores
-    setCitas([
-      ...citas,
-      nuevaCita
-    ]);
+    if (citaEditar) {
+      const citasActualizadas =
+        citas.map((cita) =>
+          cita.id === citaEditar.id
+            ? nuevaCita
+            : cita
+        );
+      setCitas(citasActualizadas);
+      localStorage.setItem(
+        "citas",
+        JSON.stringify(citasActualizadas)
+      );
+      alert("Cita actualizada");
+    } else {
+      const nuevasCitas = [
+        ...citas,
+        nuevaCita
+      ];
+      setCitas(nuevasCitas);
+      localStorage.setItem(
+        "citas",
+        JSON.stringify(nuevasCitas)
+      );
+      alert("Cita reservada");
+    }
 
     // Mensaje de confirmación
     alert("Cita reservada");
